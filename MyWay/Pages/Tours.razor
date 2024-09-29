@@ -1,0 +1,83 @@
+﻿@inject MyWay.Data.Repository.IRepository repository;
+
+@page "/tours"
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col">
+			<h2 class="text-center">Туры (@* @tours.Count *@)</h2>
+
+			<table>
+				<thead class="table-dark">
+					<tr>
+						<th scope="col">Title</th>
+						<th scope="col">Is Done</th>
+						<th scope="col">Title</th>
+					</tr>
+				</thead>
+				@for (int i = 0; i < 3; i++)
+				{
+					<tbody>
+							<tr>
+					@foreach (var item in tours)
+					{
+						<td>
+							<div class="container-fluid">
+								<div class="row">
+									@item.Name
+								</div>
+								<div class="row">
+									@item.Price
+								</div>
+								<div class="row">
+									@item.ImagePath
+								</div>
+								<div class="row">
+									@item.Description
+								</div>
+							</div>									
+						</td>													
+					}
+					</tr>
+					</tbody>
+				}
+				
+			</table>
+
+			<div class="row">
+				<div class="col">
+					<input class="form-control" placeholder="Sometime text" @bind = "newStr"/>
+				</div>
+				<div class="col">
+					<button class="btn btn-success" @onclick = "AddTour">Click</button>
+				</div>	
+			</div>
+
+		</div>
+	</div>
+</div>
+
+@code {
+
+	private IEnumerable<Tour> tours = new List<Tour>();
+
+	protected override void OnInitialized()
+	{
+		tours = repository.GetAllTours();
+	}
+
+	private string newStr;
+
+	private void AddTour()
+	{
+		if (!string.IsNullOrWhiteSpace(newStr))
+		{
+			var tour = new Tour();
+			tour.Name = newStr;
+			tour.Price = 999.99;
+			tour.Description = "sadgf dfg dfg dgfhrt wrsdfc jm ik sdfgsd";
+			tour.ImagePath = "ghjkg";
+			//tours.Add(tour);
+		}
+	}
+}
