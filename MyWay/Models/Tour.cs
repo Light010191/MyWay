@@ -11,6 +11,7 @@ namespace MyWay.Models
         public string Counrty { get; set; }
         public string City { get; set; }
         public string Description { get; set; }
+        public string ImgUrl { get; set; }
         public ICollection<Tag> Tags { get; set; }
         public Category Category { get; set; }
     }

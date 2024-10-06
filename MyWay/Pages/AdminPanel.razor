@@ -1,0 +1,83 @@
+﻿@inject MyWay.Data.Repository.IRepository repository;
+
+@page "/adminpanel"
+
+<div class="container-fluid pb-3">
+	<h2 class="text-center">Добавить Новый Тур</h2>
+	<div class="row">		
+		<form action="/" method="post">
+			<div class="form-group">
+				<input type="text" @bind="newName" name="Название" placeholder="Введите название">
+			</div>
+			<div class="form-group">
+				<input type="text" @bind="newCounrty" name="Страна" placeholder="Введите название страны">
+			</div>
+			<div class="form-group">
+				<input type="text" @bind="newCity" name="Город" placeholder="Введите название города">
+			</div>
+			<div class="form-group">
+				<input type="number" @bind="newPrice" name="Цена" placeholder="Введите цену">
+			</div>
+			<div class="form-group">
+				<textarea type="text" @bind="newDesc" rows="5" name="Описание" placeholder="Введите описание тура" />
+			</div>
+			<div class="form-group mb-3">
+				<label for="formFile" class="form-label">Default file input example</label>
+				<input class="form-control" @bind="newImg" name="Image" type="file" id="formFile">
+			</div>
+			<div class="form-group">
+				<label asp-for="CategoryId"></label>
+				<select name="Категории" @bind="newCategory" asp-items="@categories" asp-for="CategoryId" class="form-select" aria-label="Default select example">
+				</select>
+			</div>
+			<div class="form-group">
+				<label asp-for="BookTags"></label>
+				<select name="Тэги" asp-items="@repository.GetAllTags()" multiple class="form-select chosen-select" aria-label="Default select example">
+				</select>
+			</div>
+			<button class="btn btn-outline-primary w-25 mt-3" @onclick="AddTour"> Add</button>
+		</form>
+
+
+		@* <div class="row">
+		<div class="col">
+		<input class="form-control" placeholder="Sometime text" @bind = "newStr"/>
+		</div>
+		<div class="col">
+		<button class="btn btn-success" @onclick = "AddTour">Click</button>
+		</div>
+		</div> *@
+
+	</div>
+</div>
+
+@code {
+
+	private IEnumerable<Tour> tours = new List<Tour>();
+	private IEnumerable<Category> categories = new List<Category>();
+
+	protected override void OnInitialized()
+	{
+		tours = repository.GetAllTours();
+		categories = repository.GetAllCategories();
+	}
+
+	private string newName, newDesc, newCounrty, newCity, newImg, newCategory;
+	private double newPrice;
+
+	private void AddTour()
+	{
+		if (!string.IsNullOrWhiteSpace(newName))
+		{
+			var tour = new Tour();
+			tour.Name = newName;
+			tour.Price = newPrice;
+			tour.Description = newDesc;
+			tour.ImagePath = "ghjkg";
+			tour.Counrty = newCounrty;
+			tour.City = newCity;
+			tour.Category = repository.GetCategoryByName(newCategory);
+			repository.AddTour(tour);
+		}
+	}
+}

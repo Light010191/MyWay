@@ -1,0 +1,19 @@
+﻿<h2 class="text-center">Туры ( @Tours.Count() )</h2>
+<div class="row">
+	@if (Tours == null)
+	{
+		<p>Загрузка....</p>
+	}
+	else
+	{
+		@foreach (var item in Tours)
+		{
+			<OneTour Tour="item" />
+		}
+	}	
+</div>
+
+@code {
+	[Parameter] public IEnumerable<Tour> Tours { get; set; }
+
+}

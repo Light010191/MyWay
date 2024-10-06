@@ -1,0 +1,18 @@
+﻿<div class="row text-center alert alert-info">
+	<div class="col">
+		<div class="card">
+			<div class="img-container">
+				<img src="@Tour.ImgUrl" alt="Alternate Text" />
+			</div>
+			<div class="card-body">
+				<p>@Tour.Name</p>
+				<p>@Tour.Price</p>
+				<p>@Tour.Description</p>
+				<button class="btn-primary">Click</button>
+			</div>
+		</div>
+	</div>
+</div>
+@code {
+	[Parameter] public Tour Tour { get; set; }
+}
