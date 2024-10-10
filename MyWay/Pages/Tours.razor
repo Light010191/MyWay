@@ -3,22 +3,49 @@
 @page "/tours"
 
 <div class="container-fluid pb-3">	
-	<ListTours Tours="tours"/>
-	@* <div class="row">
-	<div class="col">
-	<input class="form-control" placeholder="Sometime text" @bind = "newStr"/>
-	</div>
-	<div class="col">
-	<button class="btn btn-success" @onclick = "AddTour">Click</button>
-	</div>
-	</div> *@
+	<OneTour Tour="oneTourToShow" DeleteTour="DeleteTour" SwitchTour="ShowNewTour"/>
+	<ListTours Tours="tours"/>	
 </div>
 
 @code {
-	private IEnumerable<Tour> tours = new List<Tour>();
+	Random rnd;
+	Tour oneTourToShow;
+
+	private List<Tour> tours;
 
 	protected override void OnInitialized()
 	{
-		tours = repository.GetAllTours();
-	}	
+		tours = repository.GetAllTours().ToList();
+		rnd = new Random(DateTime.Now.Millisecond);
+		oneTourToShow = tours[rnd.Next(0, tours.Count)];
+	}
+
+	public void DeleteTour(Tour tour)
+	{
+		repository.DeleteTour(tour.Id);
+	}
+	void ShowNewTour()
+	{
+		oneTourToShow = SwitchTour();
+	}
+
+	Tour SwitchTour()
+	{
+		Tour tempTour;
+		if (tours == null) return new Tour() { Name = "ошибка создания массива" };
+		if(tours.Count >= 2)
+		{
+			int iterator = rnd.Next(0, tours.Count);
+			tempTour = tours[iterator];
+		}
+		else if(tours.Count == 1)
+		{
+			tempTour = tours[0];
+		}
+		else
+		{
+			tempTour = new Tour() {Name = "Нет элементов для показа"};
+		}
+		return tempTour;
+	}
 }

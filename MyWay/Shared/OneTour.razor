@@ -1,4 +1,5 @@
-﻿<div class="row text-center alert alert-info">
+﻿
+<div class="row text-center alert alert-info">
 	<div class="col">
 		<div class="card">
 			<div class="img-container">
@@ -8,11 +9,15 @@
 				<p>@Tour.Name</p>
 				<p>@Tour.Price</p>
 				<p>@Tour.Description</p>
-				<button class="btn-primary">Click</button>
+				<button class="btn-primary" @onclick="(()=>DeleteTour.InvokeAsync(Tour))">Click</button>
+				<button class="btn-primary" @onclick="SwitchTour">Click2</button>
 			</div>
 		</div>
 	</div>
 </div>
+
 @code {
 	[Parameter] public Tour Tour { get; set; }
+	[Parameter] public EventCallback<Tour> DeleteTour { get; set; }
+	[Parameter] public EventCallback SwitchTour { get; set; }
 }

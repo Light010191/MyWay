@@ -1,6 +1,8 @@
 ﻿@inject MyWay.Data.Repository.IRepository repository;
 
 @page "/adminpanel"
+@using System.IO
+@using Microsoft.AspNetCore.Http
 
 <div class="container-fluid pb-3">
 	<h2 class="text-center">Добавить Новый Тур</h2>
@@ -54,7 +56,7 @@
 @code {
 
 	private IEnumerable<Tour> tours = new List<Tour>();
-	private IEnumerable<Category> categories = new List<Category>();
+	private IEnumerable<Category> categories = new List<Category>();	
 
 	protected override void OnInitialized()
 	{
@@ -62,8 +64,9 @@
 		categories = repository.GetAllCategories();
 	}
 
-	private string newName, newDesc, newCounrty, newCity, newImg, newCategory;
+	private string newName, newDesc, newCounrty, newImg, newCity, newCategory;
 	private double newPrice;
+	//private IFormFile newImg;
 
 	private void AddTour()
 	{
@@ -73,7 +76,7 @@
 			tour.Name = newName;
 			tour.Price = newPrice;
 			tour.Description = newDesc;
-			tour.ImagePath = "ghjkg";
+			//tour.ImagePath = await FileUploadHelper.UploadAsync(newImg);
 			tour.Counrty = newCounrty;
 			tour.City = newCity;
 			tour.Category = repository.GetCategoryByName(newCategory);

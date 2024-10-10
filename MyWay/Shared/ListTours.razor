@@ -1,4 +1,5 @@
-﻿<h2 class="text-center">Туры ( @Tours.Count() )</h2>
+﻿@inject MyWay.Data.Repository.IRepository repository;
+<h2 class="text-center">Туры ( @Tours.Count() )</h2>
 <div class="row">
 	@if (Tours == null)
 	{
@@ -8,12 +9,18 @@
 	{
 		@foreach (var item in Tours)
 		{
-			<OneTour Tour="item" />
+			<OneTour Tour="item" DeleteTour="DeleteTour"/>
 		}
 	}	
 </div>
 
 @code {
-	[Parameter] public IEnumerable<Tour> Tours { get; set; }
+	[Parameter] public List<Tour> Tours { get; set; }
+
+	
+	public void DeleteTour(Tour tour)
+	{
+		repository.DeleteTour(tour.Id);
+	}
 
 }
